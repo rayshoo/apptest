@@ -1,0 +1,11 @@
+kubernetes
+node_modules
+routes
+schemas
+.env
+.env_example
+.gitignore
+.prettierrc
+app.js
+package*
+README.md

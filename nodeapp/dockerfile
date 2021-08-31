@@ -1,0 +1,13 @@
+FROM node:14.17.5
+LABEL maintainer "rayshoo <fire@dragonz.dev>"
+RUN npm install -g pm2
+RUN useradd -rm nodejs
+USER nodejs
+WORKDIR /home/nodejs
+COPY app/dist/nodeapp /home/nodejs
+COPY app/public /home/nodejs/public
+COPY app/views /home/nodejs/views
+ENV ID=test
+ENV PASSWORD=test
+CMD ["./nodeapp"]
+EXPOSE 3000

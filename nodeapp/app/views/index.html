@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <!-- <link rel="icon" type="image/png" href="/images/favicon.ico"/> -->
+  <link rel="stylesheet" href="/css/default.css">
+  <link rel="stylesheet" href="/css/index.css">
+  {% block js %}
+  <script src="/js/index.js" defer></script>
+  {% endblock %}
+  <title>Wake On Lan</title>
+</head>
+<body>
+  <header>
+    <span class="logo">Wake On Lan
+      {% if session %}
+      <button id="logout">관리자 로그아웃</button>
+      {% else %}
+      <button id="login">관리자 로그인</button>
+      {% endif %}
+    </span>
+  </header>
+  <main>
+    <section>
+      <form action="" method="post">
+        <div><label class=".font" for="name">Name</label><div class="input"><input class="font" type="text" id="name" name="name" placeholder="홍길동"></div></div>
+        <div><label class=".font" for="mac">Mac Address</label><div class="input"><input class="font" type="text" id="mac" name="mac" placeholder="00:00:00:00:00:00"></div></div>
+        <div><label class=".font" for="port">Port Number</label><div class="input"><input class="font" type="text" id="port" name="port" placeholder="9"></div></div>
+      </form>
+      {% if session %}
+      <div>
+        <button id="power" class="font">켜기</button>
+        <button id="add" class="font">추가</button>
+        <button id="remove" class="font">삭제</button>
+      </div>
+      {% else %}
+      <div>
+        <button id="power" class="font user">켜기</button>
+      </div>
+      {% endif %}
+    </section>
+    <div>
+      <ul class="list">
+        {% for pc in pcs %}
+        <li ontouchstart="" tabindex="0">
+          <span class="font">{{ pc.index }}</span><span class="font">{{ pc.name }}</span><span class="font">{{ pc.mac }}</span><span class="font">{{ pc.port }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </main>
+</body>
+</html>

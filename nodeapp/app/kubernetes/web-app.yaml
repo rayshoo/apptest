@@ -1,0 +1,62 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wol-webapp-service
+spec:
+  externalTrafficPolicy: Local
+  ports:
+  - name: web-port
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: wol
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wol-webapp
+  labels:
+    app: wol
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wol
+  template:
+    metadata:
+      labels:
+        app: wol
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - web-store
+            topologyKey: kubernetes.io/hostname
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: replicaset
+                operator: In
+                values:
+                - MainRepSet
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: oddconcept-wol
+        image: rayshoo/wol:0.1
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: wol-dbinfo
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: registry-auth-by-cmd
+                    
