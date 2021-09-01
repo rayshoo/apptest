@@ -7,10 +7,10 @@ const path = require('path');
 const nunjucks = require('nunjucks');
 const session = require('express-session');
 const methodOverride = require('method-override');
-// const fs = require('fs');
-// const etag = require('etag')
-// const stream = require('stream');
-// const dateFormat = require('dateformat');
+const fs = require('fs');
+const etagFormat = require('etag')
+const stream = require('stream');
+const dateFormat = require('dateformat');
 
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
@@ -77,33 +77,42 @@ app.use((req,res,next)=> {
 
 /* Static resources */
 app.use(express.static(path.join(__dirname, './public'), { maxAge: 3000 }));
+//app.use('/', (req,res,next)=> {
+//  let filePath = path.join(__dirname, `public/${req.url}`);
+//  fs.stat(filePath, (err, stats) => {
+//    if(err) { next(); return; }
+//    let r = fs.createReadStream(filePath);
+//    let ps = new stream.PassThrough();
+//    stream.pipeline(
+//      r, ps,
+//      (err) => {
+//        if (err) {
+//          if(err.errno !== -21) {
+//            res.status(400);
+//            console.log(err.errno)
+//          }
+//          next();
+//        }
+//      }
+//    )
+//    let date = `${dateFormat(stats.mtime, "ddd, dd mmm yyyy HH:MM:ss")} GMT`;
+//    let etag = 'W/' + etagFormat(`${req.url}, ${date}`);
+//
+//    res.setHeader('Last-Modified', date);
+//    res.setHeader('ETag', etag);
+//    res.setHeader('Cache-Control', 'public, max-age=3');
+//
+//    if (req.headers['if-modified-since'] == date || req.headers['if-none-match'] == etag) {
+//      res.status(304).end();
+//    }
+//    else {
+//      res.status(200);
+//      ps.pipe(res);
+//    }
+//  });
+//});
 
 /* Router */
-// app.use('/', (req,res,next)=> {
-//   let filePath = path.join(__dirname, `public/${req.url}`);
-//   fs.stat(filePath, (err, stats) => {
-//     if(err) { next(); return; }
-//     let r = fs.createReadStream(filePath);
-//     let ps = new stream.PassThrough();
-//     stream.pipeline(
-//       r, ps,
-//       (err) => {
-//         if (err) {
-//           if(err.errno !== -21) {
-//             res.status(400);
-//             console.log(err.errno)
-//           }
-//           next();
-//         }
-//       }
-//     )
-//     let date = `${dateFormat(stats.mtime, "ddd, dd mmm yyyy HH:MM:ss")} GMT`;
-//     res.status(200);
-//     res.append('Last-Modified', date);
-//     res.setHeader('ETag', 'W/' + etag(`${req.url}, ${date}`))
-//     ps.pipe(res);
-//   });
-// });
 app.use('/admin', adminRouter);
 app.use('/', indexRouter);
   
