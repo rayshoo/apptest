@@ -11,20 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dateformat": "^4.5.1",
+    "chalk": "^4.1.2",
     "dotenv": "^8.2.0",
-    "etag": "^1.8.1",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
-    "fs": "0.0.1-security",
     "method-override": "^3.0.0",
-    "moment": "^2.25.3",
     "mongoose": "^5.12.13",
-    "mysql2": "^2.1.0",
     "node-wol": "^0.1.1",
     "nodemon": "^2.0.7",
     "nunjucks": "^3.2.3",
-    "stream": "0.0.2",
+    "os": "^0.1.2",
     "wol": "^1.0.7"
   },
   "devDependencies": {
