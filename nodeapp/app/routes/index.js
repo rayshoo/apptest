@@ -7,7 +7,7 @@ router.get('/', async (req,res,next)=> {
   // const pcs = await PCS.find().sort({ name: 1 });
   let pcs = [
     {
-    "name" : "최우석",
+    "name" : "홍길동",
     "mac": "11:11:11:11:11:11",
     "port": 9
     }

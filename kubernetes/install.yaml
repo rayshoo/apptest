@@ -5,6 +5,69 @@ metadata:
   name: apptest
 
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cache
+  namespace: apptest
+data: 
+  cache.js : |
+    const cache_config = {
+      cacheControl: false, maxAge: 3000, 
+      setHeaders: (res)=> { res.setHeader('Cache-Control','public, max-age=3')},
+      lastModified: true, 
+      etag: true
+    }
+
+    module.exports = cache_config;
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: appconfig
+  namespace: apptest
+data: 
+  app.conf : |
+    proxy_cache_path /tmp/nginx levels=1:2 keys_zone=my_zone:10m inactive=60m;
+    proxy_cache_key "$scheme$request_method$host$request_uri";
+
+    server {
+      listen 5000;
+      server_name _;
+      location / { 
+        # Proxy config
+        proxy_redirect off;
+        proxy_pass_header Server;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1; 
+        proxy_pass http://nodeapp:3000/;
+
+        # Cache config
+        add_header X-Proxy-Cache $upstream_cache_status;
+        proxy_cache my_zone;
+
+        # Override Cache-Control max-age(to client)
+        # expires 10s;
+
+        # Kill cache
+        # add_header Last-Modified $date_gmt;
+        # add_header Cache-Control 'no-store, no-cache';
+        # if_modified_since off;
+        # expires off;
+        # etag off;
+
+        # Not ordinary options
+        # proxy_cache_bypass $http_cache_control;
+        # proxy_ignore_headers Cache-Control;
+        # proxy_hide_header Cache-Control;
+      }
+    }
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,6 +91,13 @@ spec:
         name: nodeapp
         resources: {}
         imagePullPolicy: Always
+        volumeMounts:
+        - name: cache-config
+          mountPath: /root/app/config
+      volumes:
+      - name: cache-config
+        configMap:
+          name: cache
 
 ---
 apiVersion: v1
@@ -70,6 +140,13 @@ spec:
         name: nginx
         resources: {}
         imagePullPolicy: Always
+        volumeMounts:
+        - name: appconfig
+          mountPath: /etc/nginx/conf.d
+      volumes:
+      - name: appconfig
+        configMap:
+          name: appconfig
 
 ---
 apiVersion: v1

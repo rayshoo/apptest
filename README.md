@@ -49,6 +49,11 @@ podman-compose up --build -d
 ## kubernetes
 ```sh
 kubectl apply -f kubernetes
+
+kubectl rollout -n apptest restart deployment/nodeapp
+kubectl rollout -n apptest restart deployment/nginx
+
+kubectl delete pod -n apptest --all
 ```
 
 # Delete
