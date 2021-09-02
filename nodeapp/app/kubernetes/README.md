@@ -24,12 +24,12 @@ rs.initiate({_id: "MainRepSet", version: 1, members: [
 
 
 db.getSiblingDB("admin").createUser({
-      user : "oddconcepts",
+      user : "devops",
       pwd  : "devops",
       roles: [ { role: "root", db: "admin" } ]
 });
 
-db.getSiblingDB('admin').auth("oddconcepts", "devops");
+db.getSiblingDB('admin').auth("devops", "devops");
 
 rs.status()
 

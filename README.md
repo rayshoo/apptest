@@ -77,3 +77,9 @@ podman-compose down
 ```sh
 kubectl delete -f kubernetes
 ```
+
+# Test
+```sh
+curl -I \
+[external ip]/test/library.jpg
+```
