@@ -11,7 +11,7 @@
   {% block js %}
     <script>
       alert('{{message}}');
-      location.href = '/admin/login';
+      location.href = '{{ contextPath }}/admin/login';
     </script>
   {% endblock %}
   {% endif %}

@@ -7,16 +7,17 @@ const user_port = document.querySelector('#port');
 const power = document.querySelector('#power');
 const add = document.querySelector('#add');
 const remove = document.querySelector('#remove');
+const path = location.href.replace(/(.*?)\/*$/, '$1');
 
 if (login) {
   login.addEventListener('click', ()=>{
-    location.href = 'admin/login';
+    location.href = `${path}/admin/login`;
   });
 }
 
 if (logout) {
   logout.addEventListener('click', ()=>{
-    location.href = 'admin/logout';
+    location.href = `${path}/admin/logout`;
   });
 }
 
@@ -47,7 +48,7 @@ power.addEventListener('click', ()=>{
       let mac = user_mac.value;
       let port = user_port.value;
   
-      fetch('/power',
+      fetch(`${path}/power`,
       {
           method: "POST",
           body: JSON.stringify({ mac, port }),
@@ -70,7 +71,7 @@ if (add) {
         let mac = user_mac.value;
         let port = user_port.value;
   
-        fetch('/add',
+        fetch(`${path}/add`,
         {
             method: "POST",
             body: JSON.stringify({ name, mac, port }),
@@ -102,7 +103,7 @@ if (remove) {
         let mac = user_mac.value;
         let port = user_port.value;
   
-        fetch('/remove',
+        fetch(`${path}/remove`,
         {
             method: "DELETE",
             body: JSON.stringify({ name, mac, port }),

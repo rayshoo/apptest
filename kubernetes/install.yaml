@@ -94,6 +94,9 @@ spec:
         volumeMounts:
         - name: cache-config
           mountPath: /root/app/config
+        # env:
+        # - name: CONTEXT_PATH
+        #   value: "/wol"
       volumes:
       - name: cache-config
         configMap:

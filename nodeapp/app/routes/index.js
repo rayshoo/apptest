@@ -14,9 +14,9 @@ router.get('/', async (req,res,next)=> {
   ]
 
   if (req.session.user) {
-    res.render('index', { pcs, session: req.session.user });
+    res.render('index', { contextPath, pcs, session: req.session.user });
   } else {
-    res.render('index', { pcs });
+    res.render('index', { contextPath, pcs });
   }
 });
 
@@ -45,7 +45,7 @@ router.post('/add', async(req,res,next)=>{
   console.log(`name: ${name}, mac: ${mac}, port: ${port}`)
 
   try {
-    const result = await pc.save();
+    // const result = await pc.save();
     res.sendStatus(201);
   } catch(err) {
     res.sendStatus(500);
