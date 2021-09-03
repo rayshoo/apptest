@@ -30,9 +30,15 @@ app.use(express.urlencoded({extended : false}));
 
 app.use(
   session({
-    secret: 'made by devops chan',
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'development' ? false : true,
+      sameSite: process.env.NODE_ENV === 'development' ? false: 'none'
+    }
   }),
 );
 
