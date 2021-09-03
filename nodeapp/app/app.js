@@ -57,22 +57,22 @@ app.use(
 //   next();
 // });
 
-/* Logs */
+/* Log */
 let color = 0
-// app.use((req, _, next)=> {
-//   let headers = req.headers
-//   color === 0
-//   ? (()=>{ console.log(chalk.red('-----------------------')); color = 1; })()
-//   : (()=>{ console.log(chalk.blue('-----------------------')); color = 0; })();
-//   console.log(`scheme: ${req.protocol}`)
-//   console.log(`method: ${req.method}`)
-//   console.log(`path: ${req.url}\n`)
-//   console.log(`headers:`)
-//   for (i in headers){
-//     console.log(`${i} : ${headers[i]}`)
-//   }
-//   next();
-// });
+app.use((req, _, next)=> {
+  let headers = req.headers;
+  color === 0
+  ? (()=>{ console.log(chalk.red('-----------------------')); color = 1; })()
+  : (()=>{ console.log(chalk.blue('-----------------------')); color = 0; })();
+  console.log(`scheme: ${req.protocol}`);
+  console.log(`method: ${req.method}`);
+  console.log(`path: ${req.url}\n`);
+  console.log(`headers:`);
+  for (i in headers){
+    console.log(`${i} : ${headers[i]}`);
+  }
+  next();
+});
 
 /* Static resources */
 app.use(express.static(path.join(__dirname, './public'), cache_config));
