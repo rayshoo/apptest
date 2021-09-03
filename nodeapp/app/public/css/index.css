@@ -44,7 +44,7 @@ header, main > div {
   height : 8rem;
   line-height: 8rem;
   font-size : 2.5rem;
-  /* background : url(/images/slogan_logo.png) no-repeat .05rem / 8rem auto; */
+  /* background : url(../images/slogan_logo.png) no-repeat .05rem / 8rem auto; */
   text-align : center;
 }
 
@@ -190,7 +190,7 @@ main > section > div button.user {
     left: 0rem;
     width : 100%;
     height : 3rem;
-    /* background: url(/images/slogan_logo.png) no-repeat 1.5rem 1.5rem / 7rem auto; */
+    /* background: url(../images/slogan_logo.png) no-repeat 1.5rem 1.5rem / 7rem auto; */
   }
   .logo {
     position: static;
