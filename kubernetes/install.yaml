@@ -47,8 +47,8 @@ data:
         proxy_pass http://nodeapp:3000/;
 
         # Cache config
-        add_header X-Proxy-Cache $upstream_cache_status;
         proxy_cache my_zone;
+        add_header X-Proxy-Cache $upstream_cache_status;
 
         # Override Cache-Control max-age(to client)
         # expires 10s;
@@ -80,7 +80,8 @@ spec:
   selector:
     matchLabels:
       app: nodeapp
-  strategy: {}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -209,9 +210,9 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-   #nginx.ingress.kubernetes.io/affinity: "cookie"
-   #nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
-   #nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
   namespace: apptest
 spec:
   rules:
